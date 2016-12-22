@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <!-- SEO  -->
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <!-- 苹果专用 -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="blank" />
+    <meta name="format-detection" content="telephone=no" />
+    <!-- 简单移动端适配 -->
+   	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <!-- 图标 -->
+	<link rel="shortcut icon" href="">
+    
+    <title>模板</title>
+    <link rel="stylesheet" href="">
+    <style>
+    	*{
+    		box-sizing: border-box;
+    	}
+    	html,body{
+    		width: 100%;
+    		height: 100%;
+    		background-color: #000;
+    		color: #fff;
+    		margin: 0;
+    		padding: 0;
+    		border: 0;
+    	}
+    	#container{
+    		width: 300px;
+    		height: 500px;
+    		border: 3px dotted yellow;
+    		margin: 10px auto;
+    		position: relative;
+    		text-align: center;
+    	}
+    	.levelContainer{
+    		position: absolute;
+		    list-style: none;
+		    margin: 0 auto;
+		    padding: 0;
+		    background-color: red;
+		    width: 80%;
+		    height: 60%;
+		    left: 50%;
+		    margin-left: -40%;
+    	}
+    	.levelItem{
+    		height: 40px;
+		    padding: 10px;
+		    background-color: green;
+		    margin-bottom: 5px;
+    	}
+    	/*飞机的样式*/
+    	.warcraft{
+    		width: 60px;
+		    height: 36px;
+		    background: url(./img/warcraft.png);
+		    display: inline-block;
+		    position: absolute;
+    	}
+    	/* 子弹声明 */
+    	.bullet{
+    		width: 6px;
+		    height: 22px;
+		    display: inline-block;
+		    position: absolute;
+		    background: url(./img/bullet.png);
+    	}
+    </style>
+    
+    
+</head>
+
+<body>
+    <section id="container">
+    	<!--<h3>青岛灰机，啤酒中的战斗机</h3>
+    	<ul class="levelContainer">
+    		<li class="levelItem">纯屌丝模式</li>
+	    	<li class="levelItem">高富帅模式</li>
+	    	<li class="levelItem">王大侠模式</li>
+    	</ul>-->
+    	
+    </section>
+
+    <script src="js/jquery-2.1.0.js" type="text/javascript"></script>
+    <script type="text/javascript">
+		var game = {
+			timer:{
+				bullet:null,//用于产生子弹的定时器
+			},
+			container:$('#container'),//容器对象
+//			selectSetting:[],
+			data:{//这里是保存我们所有关于游戏的数据信息
+				gTitle:'青岛灰机，啤酒中的战斗机',
+				gameLevel:{//游戏关卡
+					difficulty:{
+						title:'纯屌丝模式',
+						settings:[0,2000,200]
+					},//困难
+					easy:{
+						title:'高富帅模式',
+						settings:[1,2000,200]
+					},//简单
+					Invincible:{
+						title:'王大侠模式',
+						settings:[2,200,20]
+					},//无敌版
+					christmas:{
+						title:'欢乐模式',
+						settings:[3,200,20]
+					},
+				},
+				
+			},
+			init:function(){//游戏初始化
+				game.createScreen();//创建我的显示welcome欢迎界面
+			},
+			createScreen:function(){
+				
+				var gTitleObj = $("<h3>");//创建全局标题
+				var gTitleText = game.data.gTitle;//获取标题内容
+				gTitleObj.html(gTitleText);
+				game.container.append(gTitleObj);
+				/************************* 标题绘制成功  ************************/
+				
+				var gLevelCObj = $("<ul>");//创建一个UL关卡的容器
+				gLevelCObj.addClass('levelContainer');//添加class名称
+				var gameLevelObj = game.data.gameLevel;//获取当前关卡对象
+				var levelArray = [];
+				if(gameLevelObj){//保护措施
+					for( itemKey in gameLevelObj){
+						console.log(itemKey);//difficulty/easy/Invincible/christmas
+						levelArray.push(itemKey);
+						console.log(gameLevelObj[itemKey].title);//输出关卡中的标题
+						var gLevelItemObj = $('<li>');//创建li标签
+						gLevelItemObj.addClass('levelItem');//添加class名称
+						var tmpText = gameLevelObj[itemKey].title;
+						gLevelItemObj.html(tmpText);
+						gLevelCObj.append(gLevelItemObj);//将li标签添加到我们的ul里面
+					}
+					game.container.append(gLevelCObj);//将我们的额ul添加到我们的容器中
+				}
+				/************************* 关卡绘制成功  ************************/
+				
+				$('.levelItem').on('click',function(e){
+					//动态添加的元素通过click没有效果，需要进行on绑定
+					e.preventDefault();
+					var that = $(this);
+					var tmpIndex = that.index();
+					console.log(tmpIndex);
+					var cusSetting = []; 
+					if(levelArray){
+						var tmplevelKey =  levelArray[tmpIndex];//gameLevelObj[key] -- key
+						cusSetting = gameLevelObj[tmplevelKey];
+						console.log(cusSetting);
+						game.removeScreen();//移除内容元素
+						
+						//$('#container').on('mousemove',function(e){})
+						var warcraftCreateTag = true;//创建飞机初始一次的标志
+						game.container.on('mousemove',function(e){
+							
+							var posX = e.clientX - game.container.offset().left - 30;
+							var posY = e.clientY - game.container.offset().top - 18;
+							if(posX < -30){//边界检测
+								posX = -30;
+							}else if(posX > (game.container.width()-30)){
+								posX = game.container.width()-30;
+							}
+							if(posY<0){//边界检测
+								posY=0;
+							}else if(posY > (game.container.height()-36)){
+								posY = game.container.height()-36;
+							}
+							
+							var tmpPos = {
+								x:posX,
+								y:posY,
+							};
+							if(warcraftCreateTag){
+								console.log(e);
+								game.warcraft.create(tmpPos);//创建飞机
+								//创建一次飞机，随后鼠标在移动中时，我们只需要改变飞机的位置
+								warcraftCreateTag =false;
+							}
+							game.warcraft.updateWarcPos(tmpPos);
+							console.log('success');
+							
+							/***************************飞机已经产生并且可以飞行****************************/
+							
+							game.bullet.create();
+							
+							
+							
+							
+							
+						})
+						
+						
+					}					
+					
+					
+				});
+		
+			},
+			removeScreen:function(){//移除元素
+//				setTimeout(function(){
+					game.container.children().remove();
+//				},300)
+			},
+			warcraft:{// 飞机
+				pos:{
+					x:0,
+					y:0,
+				},//pos[0]--x  / pos[1]---y
+				create:function(pos){
+					//创建飞机
+					var warcraftObj = $('<span>');
+					warcraftObj.addClass('warcraft');
+
+					warcraftObj.css({
+						left:pos.x,
+						top:pos.y,
+					})
+					game.container.append(warcraftObj);
+					
+					//保存当前飞机的位置信息
+					game.warcraft.pos.x = pos.x;
+					game.warcraft.pos.y = pos.y;
+					
+				},
+				updateWarcPos:function(pos){
+					//更新飞机的位置
+					$('.warcraft').css({
+						left:pos.x,
+						top:pos.y,
+					})
+					
+					//保存当前飞机的位置信息
+					game.warcraft.pos.x = pos.x;
+					game.warcraft.pos.y = pos.y;
+				},
+			},
+			bullet:{//子弹
+				create:function(){
+					var nowPos =  game.warcraft.pos;
+					console.log("当前子弹的位置");
+					console.log(nowPos);
+					var bulletObj = $("<span>");
+					bulletObj.addClass('bullet');
+					var bx = nowPos.x + ($('.warcraft').width() - $('.bullet').width())/2;
+					var by = nowPos.y - $('.bullet').height();
+					bulletObj.css({
+						left:bx,
+						top:by,
+					})
+					game.container.append(bulletObj);//添加我们的子弹
+					bulletObj
+						.stop()
+						.animate({top:0},200,function(){
+								bulletObj.remove();
+						})
+					
+					
+				}
+			},
+			enemy:{//战斗机--敌机
+				
+			}
+				
+			
+		}
+
+
+		game.init();//程序入口
+
+
+    </script>
+</body>
+
+</html>

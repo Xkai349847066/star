@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <!-- SEO  -->
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <!-- 苹果专用 -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="blank" />
+    <meta name="format-detection" content="telephone=no" />
+    <!-- 简单移动端适配 -->
+   	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <!-- 图标 -->
+	<link rel="shortcut icon" href="">
+    
+    <title>模板</title>
+    <link rel="stylesheet" href="">
+    <style>
+    	*{
+    		box-sizing: border-box;
+    	}
+    	html,body{
+    		width: 100%;
+    		height: 100%;
+    		background-color: #000;
+    		color: #fff;
+    		margin: 0;
+    		padding: 0;
+    		border: 0;
+    	}
+    	#container{
+    		width: 300px;
+    		height: 500px;
+    		border: 3px dotted yellow;
+    		margin: 10px auto;
+    		position: relative;
+    		text-align: center;
+    	}
+    	.levelContainer{
+    		position: absolute;
+		    list-style: none;
+		    margin: 0 auto;
+		    padding: 0;
+		    background-color: red;
+		    width: 80%;
+		    height: 60%;
+		    left: 50%;
+		    margin-left: -40%;
+    	}
+    	.levelItem{
+    		height: 40px;
+		    padding: 10px;
+		    background-color: green;
+		    margin-bottom: 5px;
+    	}
+    	/*飞机的样式*/
+    	.warcraft{
+    		width: 60px;
+		    height: 36px;
+		    background: url(./img/warcraft.png);
+		    display: inline-block;
+		    position: absolute;
+    	}
+    	/* 子弹声明 */
+    	.bullet{
+    		width: 6px;
+		    height: 22px;
+		    display: inline-block;
+		    position: absolute;
+		    background: url(./img/bullet.png);
+    	}
+    	/*敌机样式*/
+    	.enemy{
+    		width: 23px;
+		    height: 30px;
+		    display: inline-block;
+		    position: absolute;
+		    background: url(./img/enemy.png);
+    	}
+    </style>
+    
+    
+</head>
+
+<body>
+    <section id="container">
+    	<!--<h3>青岛灰机，啤酒中的战斗机</h3>
+    	<ul class="levelContainer">
+    		<li class="levelItem">纯屌丝模式</li>
+	    	<li class="levelItem">高富帅模式</li>
+	    	<li class="levelItem">王大侠模式</li>
+    	</ul>-->
+    	
+    </section>
+
+    <!--<script src="js/jquery-2.1.0.js" type="text/javascript"></script>-->
+    <script type="text/javascript" src="js/jquery-1.11.0.js" ></script>
+    <script type="text/javascript">
+		var timer1 = setInterval(function(){
+			console.log("123");
+			var timer2 = setInterval(function(){
+				console.log("456");
+			},100)
+		},1000)
+
+    </script>
+</body>
+
+</html>
